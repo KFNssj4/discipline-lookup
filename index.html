@@ -6,6 +6,7 @@
   <title>Discipline Action Lookup</title>
   <style>
     :root { --border:#e5e7eb; --text:#111827; --muted:#6b7280; --bg:#f9fafb; --danger:#b91c1c; --dangerBg:#fee2e2; }
+
     body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin:0; background:var(--bg); color:var(--text); }
     .wrap { max-width: 860px; margin: 40px auto; padding: 0 16px; }
     .card { background:white; border:1px solid var(--border); border-radius:14px; padding:20px; box-shadow: 0 1px 2px rgba(0,0,0,.04); }
@@ -13,63 +14,78 @@
     p { margin: 0 0 18px; color: var(--muted); }
     .grid { display:grid; grid-template-columns: 1fr 220px; gap: 12px; }
     label { font-size: 12px; color: var(--muted); display:block; margin-bottom:6px; }
-   select, input {
-  width: 100%;
-  padding: 10px 12px;
 
-  border: 1px solid var(--border) !important;
-  border-radius: 10px !important;
+    /* Inputs */
+    select, input {
+      width: 100%;
+      padding: 10px 12px;
 
-  font-size: 14px;
-  color: var(--text);
+      border: 1px solid var(--border) !important;
+      border-radius: 10px !important;
 
-  background-color: #ffffff !important;
+      font-size: 14px;
+      color: var(--text);
+      background-color: #ffffff !important;
 
-  /* Kill native styling that causes the “white flash” */
-  -webkit-appearance: none;
-  appearance: none;
+      -webkit-appearance: none;
+      appearance: none;
 
-  /* Kill any default shadows/outlines that pop back in */
-  outline: none !important;
-  box-shadow: none !important;
-  background-image: none !important;
+      outline: none !important;
+      box-shadow: none !important;
+      background-image: none !important;
 
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
-}
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
 
-/* Focus states (Safari sometimes uses focus-visible) */
-select:focus,
-input:focus,
-input:focus-visible,
-input:active {
-  background-color: #ffffff !important;
-  border-color: #6366f1 !important;
-  box-shadow: 0 0 0 2px rgba(99,102,241,.15) !important;
-  outline: none !important;
-}
+    select:focus,
+    input:focus,
+    input:focus-visible,
+    input:active {
+      background-color: #ffffff !important;
+      border-color: #6366f1 !important;
+      box-shadow: 0 0 0 2px rgba(99,102,241,.15) !important;
+      outline: none !important;
+    }
 
-/* Prevent Chrome/Safari autofill from changing the background */
-input:-webkit-autofill,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;
-  -webkit-text-fill-color: var(--text) !important;
-}
+    input:-webkit-autofill,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;
+      -webkit-text-fill-color: var(--text) !important;
+    }
 
-/* Clean focus state (prevents the "white flash" / default ring look) */
-select:focus, input:focus {
-  border-color: #6366f1;
-  box-shadow: 0 0 0 2px rgba(99,102,241,.15);
-  background: #ffffff;
-}
+    /* Custom suggestion dropdown */
+    .inputWrap { position: relative; }
 
-/* Prevent Chrome/Safari autofill from changing the background */
-input:-webkit-autofill,
-input:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;
-  -webkit-text-fill-color: var(--text) !important;
-}
+    .suggestions {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      right: 0;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.08);
+      max-height: 240px;
+      overflow: auto;
+      z-index: 50;
+    }
+
+    .suggestion {
+      padding: 10px 12px;
+      cursor: pointer;
+      font-size: 14px;
+      line-height: 1.2;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .suggestion:hover,
+    .suggestion.active {
+      background: #f3f4f6;
+    }
+
     .notice {
       margin-top: 12px;
       padding: 10px 12px;
@@ -80,6 +96,7 @@ input:-webkit-autofill:focus {
       font-weight: 650;
       display: none;
     }
+
     .result { margin-top: 12px; padding: 14px; border:1px solid var(--border); border-radius:12px; background:#fff; }
     .result h2 { font-size: 14px; margin:0 0 6px; color: var(--muted); }
     .result .action { font-size: 18px; font-weight: 650; line-height:1.35; white-space: pre-line; }
@@ -96,8 +113,18 @@ input:-webkit-autofill:focus {
       <div class="grid">
         <div>
           <label for="offenseInput">Offense</label>
-          <input id="offenseInput" list="offenseList" placeholder="Start typing an offense…" autocomplete="off" />
-          <datalist id="offenseList"></datalist>
+
+          <div class="inputWrap">
+            <input
+              id="offenseInput"
+              placeholder="Start typing an offense…"
+              autocomplete="off"
+              autocapitalize="none"
+              autocorrect="off"
+              spellcheck="false"
+            />
+            <div id="suggestions" class="suggestions" hidden></div>
+          </div>
         </div>
 
         <div>
@@ -122,6 +149,8 @@ input:-webkit-autofill:focus {
 
 <script>
   let matrix = [];
+  let selectedRow = null;        // set when user picks a suggestion
+  let isLockedSelection = false; // stays locked until user types again
 
   function normalizeCount(v) {
     const n = Number(v);
@@ -131,61 +160,137 @@ input:-webkit-autofill:focus {
   }
 
   function getAction(row, count) {
-    if (!row) return "Keep typing to find an offense (or select a suggestion).";
+    if (!row) return "Start typing to see the recommended action.";
     const c = normalizeCount(count);
     if (c === 1) return row.action1 || "(No action listed for 1st offense)";
     if (c === 2) return row.action2 || "(No action listed for 2nd offense)";
     return row.action3 || "(No action listed for 3rd+ offense)";
   }
 
-  // Case-insensitive exact match
-  function findExactOffense(inputValue) {
-    const v = (inputValue || "").trim().toLowerCase();
-    if (!v) return null;
-    return matrix.find(r => (r.offense || "").trim().toLowerCase() === v) || null;
+  function norm(s) {
+    return (s || "").toString().trim().toLowerCase();
   }
 
-  function render() {
-    const offenseInput = document.getElementById("offenseInput");
+  function getMatches(query, limit = 8) {
+    const q = norm(query);
+    if (!q) return [];
+
+    const starts = [];
+    const contains = [];
+
+    for (const r of matrix) {
+      const o = norm(r.offense);
+      if (o.startsWith(q)) starts.push(r);
+      else if (o.includes(q)) contains.push(r);
+    }
+    return starts.concat(contains).slice(0, limit);
+  }
+
+  function topMatch(query) {
+    const m = getMatches(query, 1);
+    return m.length ? m[0] : null;
+  }
+
+  function renderAction(row) {
     const countSel = document.getElementById("count");
     const actionText = document.getElementById("actionText");
     const meta = document.getElementById("meta");
     const notice = document.getElementById("unlawfulNotice");
 
-    const row = findExactOffense(offenseInput.value);
-    const count = countSel.value;
+    actionText.textContent = getAction(row, countSel.value);
 
-    actionText.textContent = getAction(row, count);
-
-    // Unlawful notice
     notice.style.display = (row && row.unlawful === true) ? "block" : "none";
 
-    const label = count === "1" ? "1st" : (count === "2" ? "2nd" : "3rd+");
+    const label = countSel.value === "1" ? "1st" : (countSel.value === "2" ? "2nd" : "3rd+");
     meta.textContent = row ? `${row.offense} • ${label} offense` : "";
   }
 
+  function showSuggestions(matches, activeIndex = 0) {
+    const box = document.getElementById("suggestions");
+
+    if (!matches.length) {
+      box.hidden = true;
+      box.innerHTML = "";
+      return;
+    }
+
+    box.hidden = false;
+    box.innerHTML = matches.map((r, i) => `
+      <div class="suggestion ${i === activeIndex ? "active" : ""}" data-offense="${escapeHtml(r.offense)}">
+        ${escapeHtml(r.offense)}
+      </div>
+    `).join("");
+
+    // Use mousedown/touchstart so selection works before input loses focus (esp. mobile)
+    box.querySelectorAll(".suggestion").forEach(el => {
+      el.addEventListener("mousedown", (e) => {
+        e.preventDefault();
+        selectOffense(el.getAttribute("data-offense"));
+      });
+      el.addEventListener("touchstart", (e) => {
+        e.preventDefault();
+        selectOffense(el.getAttribute("data-offense"));
+      }, { passive: false });
+    });
+  }
+
+  function hideSuggestions() {
+    const box = document.getElementById("suggestions");
+    box.hidden = true;
+    box.innerHTML = "";
+  }
+
+  function selectOffense(offenseText) {
+    const input = document.getElementById("offenseInput");
+    input.value = offenseText;
+
+    selectedRow = matrix.find(r => r.offense === offenseText) || null;
+    isLockedSelection = true;
+
+    hideSuggestions();
+    renderAction(selectedRow);
+  }
+
+  function handleTyping() {
+    const input = document.getElementById("offenseInput");
+    const q = input.value;
+
+    // Any typing unlocks (resume "top match while typing")
+    isLockedSelection = false;
+    selectedRow = null;
+
+    const matches = getMatches(q, 8);
+    showSuggestions(matches);
+
+    // Show action for top match immediately (no label)
+    renderAction(matches.length ? matches[0] : null);
+  }
+
   async function init() {
-    const offenseInput = document.getElementById("offenseInput");
-    const offenseList = document.getElementById("offenseList");
+    const input = document.getElementById("offenseInput");
     const countSel = document.getElementById("count");
 
     const res = await fetch("data.json", { cache: "no-store" });
     matrix = await res.json();
 
-    // Sort offenses alphabetically
     matrix.sort((a,b) => a.offense.localeCompare(b.offense));
 
-    // Populate datalist suggestions
-    offenseList.innerHTML = matrix
-      .map(r => `<option value="${escapeHtml(r.offense)}"></option>`)
-      .join("");
+    input.addEventListener("input", handleTyping);
 
-    // Live updates while typing
-    offenseInput.addEventListener("input", render);
-    countSel.addEventListener("change", render);
+    // If count changes: respect locked selection, otherwise keep using top match
+    countSel.addEventListener("change", () => {
+      if (isLockedSelection && selectedRow) renderAction(selectedRow);
+      else renderAction(topMatch(input.value));
+    });
+
+    // Hide suggestions if you click/tap outside the input area
+    document.addEventListener("click", (e) => {
+      const wrap = document.querySelector(".inputWrap");
+      if (wrap && !wrap.contains(e.target)) hideSuggestions();
+    });
 
     document.getElementById("actionText").textContent =
-      "Start typing an offense to see the recommended action.";
+      "Start typing to see the recommended action.";
   }
 
   function escapeHtml(str) {
