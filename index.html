@@ -168,23 +168,67 @@
   }
 
   function norm(s) {
-    return (s || "").toString().trim().toLowerCase();
-  }
+  return (s || "").toString().trim().toLowerCase();
+}
 
+// Turns "Defacing school property/vandalism..." into a forgiving search string
+function makeSearchKey(s) {
+  return norm(s)
+    .replace(/['’]/g, "")           // remove apostrophes
+    .replace(/[^a-z0-9]+/g, " ")    // punctuation -> spaces
+    .replace(/\s+/g, " ")           // collapse whitespace
+    .trim();
+}
+
+function tokenize(s) {
+  const key = makeSearchKey(s);
+  return key ? key.split(" ") : [];
+}
+  
   function getMatches(query, limit = 8) {
-    const q = norm(query);
-    if (!q) return [];
+  const qKey = makeSearchKey(query);
+  if (!qKey) return [];
 
-    const starts = [];
-    const contains = [];
+  const qTokens = qKey.split(" ").filter(Boolean);
 
-    for (const r of matrix) {
-      const o = norm(r.offense);
-      if (o.startsWith(q)) starts.push(r);
-      else if (o.includes(q)) contains.push(r);
+  const starts = [];
+  const contains = [];
+
+  for (const r of matrix) {
+    const key = r._searchKey || makeSearchKey(r.offense);
+    const tokens = r._tokens || tokenize(r.offense);
+
+    // Score matches:
+    //  - best: any offense word starts with any query token (vape -> vaping)
+    //  - next: key contains query token anywhere
+    let startScore = 0;
+    let containScore = 0;
+
+    for (const qt of qTokens) {
+      if (!qt) continue;
+
+      if (tokens.some(t => t.startsWith(qt))) startScore += 2;
+      else if (key.includes(qt)) containScore += 1;
     }
-    return starts.concat(contains).slice(0, limit);
+
+    // If at least one token matched in either way, include it
+    const totalScore = startScore + containScore;
+    if (totalScore > 0) {
+      // Store score for ordering
+      const item = { row: r, score: totalScore };
+      if (startScore > 0) starts.push(item);
+      else contains.push(item);
+    }
   }
+
+  // Higher score first; tie-break alphabetically by offense text
+  const sorter = (a, b) =>
+    (b.score - a.score) || a.row.offense.localeCompare(b.row.offense);
+
+  const ordered = starts.sort(sorter).concat(contains.sort(sorter));
+
+  return ordered.slice(0, limit).map(x => x.row);
+}
 
   function topMatch(query) {
     const m = getMatches(query, 1);
@@ -272,6 +316,11 @@
 
     const res = await fetch("data.json", { cache: "no-store" });
     matrix = await res.json();
+    // Precompute forgiving search fields once (faster + more consistent matching)
+matrix.forEach(r => {
+  r._searchKey = makeSearchKey(r.offense);
+  r._tokens = tokenize(r.offense);
+});
 
     matrix.sort((a,b) => a.offense.localeCompare(b.offense));
 
