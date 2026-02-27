@@ -1,0 +1,303 @@
+[
+  {
+    "offense": "Cheating/Plagiarism/ Forgery",
+    "action1": "● Parent/Guardian notification\n● Fail assignment\n● Administrative detention",
+    "action2": "● Parent/Guardian notification\n● Fail assignment\n● Minimum 1-day OSS",
+    "action3": "● Parent/Guardian notification\n● Fail assignment\n● 1-3 days OSS",
+    "unlawful": false
+  },
+  {
+    "offense": "Improper dress/Failure to comply with dress code",
+    "action1": "● Parent/Guardian notification\n● Sent to ISS\n● Given an opportunity to change and return to class\n● Warning\n● Administrative detention",
+    "action2": "● Parent/Guardian notification\n● Sent to ISS\n● Administrative detention",
+    "action3": "● Parent/Guardian conference\n● Sent to ISS\n● Minimum 1-day OSS",
+    "unlawful": false
+  },
+  {
+    "offense": "Open defiance (willful disobedience or refusal to comply with a reasonable request of a school staff member)",
+    "action1": "● Parent/Guardian notification\n● Detention\n● ISS\n● Up to 2 days OSS\n● Referral to Teen Center\n● Referral to SEL",
+    "action2": "● Parent/Guardian notification\n● Up to 3 days OSS",
+    "action3": "● Up to 5 days OSS\n● Informal/Formal Hearing\n● Probable expulsion procedure",
+    "unlawful": false
+  },
+  {
+    "offense": "Disruptive behavior",
+    "action1": "● Parent/Guardian notification\n● Warning\n● Detention\n● Referral to Teen Center\n● Referral to SEL",
+    "action2": "● Parent/Guardian notification\n● Administrative mediation\n● Detention\n● Possible ISS/OSS",
+    "action3": "● Parent/Guardian notification\n● 1-3 days OSS",
+    "unlawful": false
+  },
+  {
+    "offense": "Refusal to comply with bus safety procedures/\nDisruptive behavior on bus",
+    "action1": "● Loss of bus privileges for up to remainder of the year\n● Up to 5 days OSS",
+    "action2": "● Up to 10 days OSS\n● Loss of bus privileges for up to the remainder of the year",
+    "action3": "● Same as 2nd offense",
+    "unlawful": false
+  },
+  {
+    "offense": "Disorderly behavior in cafeteria",
+    "action1": "● Parent/Guardian notification\n● 1-3 days OSS",
+    "action2": "● Parent/Guardian notification\n● 3-5 days OSS",
+    "action3": "● Parent/Guardian notification\n● 5-10 days OSS",
+    "unlawful": false
+  },
+  {
+    "offense": "Failure to return school equipment, athletic uniforms or supplies, textbooks, Library/Media books, etc.",
+    "action1": "● Parent/Guardian notification\n● Student placed on the obligation list\n● Exclusion from school until equipment is returned",
+    "action2": "● Parent/Guardian notification\n● Informal/Formal Hearing\n● Restitution\n● Student placed on obligation list",
+    "action3": "● Parent/Guardian notification\n● Informal/Formal Hearing\n● OSS",
+    "unlawful": false
+  },
+  {
+    "offense": "Excessive lateness to school",
+    "action1": "● 3 unexcused lateness to school will be equal to 1- day unexcused absence",
+    "action2": "● Same as 1st offense",
+    "action3": "● Same as 1st offense",
+    "unlawful": false
+  },
+  {
+    "offense": "Excessive absences from school",
+    "action1": "● Letter (3, 5 days)\n● Parent/Guardian conference (5 days)",
+    "action2": "● Letter (5 days)",
+    "action3": "● Loss of credit (11 days)",
+    "unlawful": false
+  },
+  {
+    "offense": "Tardiness to class (unexcused)",
+    "action1": "● Parent/Guardian notification\n● Teacher to assign detention\n● Hall Sweep (1-day ISS)",
+    "action2": "● Parent/Guardian notification\n● Administrative detention\n● Hall Sweep (2 days ISS and return with Parent/Guardian for conference)",
+    "action3": "● Parent/Guardian notification\n● Minimum 1-day ISS\n● Hall Sweep (1-day OSS and return with Parent/Guardian for conference)",
+    "unlawful": false
+  },
+  {
+    "offense": "Tardiness to cafeteria (unexcused)",
+    "action1": "● Administrative detention",
+    "action2": "● Same as 1st offense",
+    "action3": "● Same as 1st offense",
+    "unlawful": false
+  },
+  {
+    "offense": "Truancy",
+    "action1": "● Parent/Guardian notification\n● 1-day ISS",
+    "action2": "● Parent/Guardian notification\n● 3 days ISS",
+    "action3": "● Parent/Guardian notification\n● Minimum 5 days OSS",
+    "unlawful": false
+  },
+  {
+    "offense": "Failure to have/carry /present current School ID",
+    "action1": "● Purchase Temporary ID\n● Administrative warning",
+    "action2": "● Purchase Temporary ID\n● Parent/Guardian notification\n● Administrative detention",
+    "action3": "● Purchase Temporary ID\n● Parent/Guardian notification\n● 1-day ISS",
+    "unlawful": false
+  },
+  {
+    "offense": "Failure to report to fire drill and/or return to class",
+    "action1": "● Parent/Guardian notification\n● Fail assignment\n● Teacher detention",
+    "action2": "● Parent/Guardian notification\n● Fail assignment\n● 1-day ISS",
+    "action3": "● Parent/Guardian notification\n● 3 days OSS",
+    "unlawful": false
+  },
+  {
+    "offense": "Habitual use of profanity and/or inappropriate language (i.e.-obscene, offensive, degrading or insulting against staff members or other individuals",
+    "action1": "● Parent/Guardian notification\n● Administrative detention\n● 1-day ISS/OSS",
+    "action2": "● Parent/Guardian notification\n● 1-day ISS/OSS\n● Parent/Guardian conference",
+    "action3": "● Parent/Guardian notification\n● Up to 3 days OSS\n● Parent/Guardian conference",
+    "unlawful": false
+  },
+  {
+    "offense": "Unauthorized possession or use of a cellular phone or other unauthorized electronic devices\n(i.e.-recording of staff/students)",
+    "action1": "● Parent/Guardian notification\n● Confiscation of device\n● Forfeiture\n● Notice to proper authorities",
+    "action2": "● Same as 1st offense\n● Administrative detention",
+    "action3": "● Same as 1st offense\n● OSS",
+    "unlawful": false
+  },
+  {
+    "offense": "Tampering with computer(s), devices or violation of Acceptable Use Policy (P 2361)",
+    "action1": "● Parent/Guardian notification\n● Loss of privileges\n● Notice to appropriate authorities\n● Mandatory OSS and/or expulsion procedures",
+    "action2": "● Same as 1st Offense",
+    "action3": "● Same as 1st Offense",
+    "unlawful": false
+  },
+  {
+    "offense": "Use of tobacco products by students 17 years of age and under (i.e.-smoking, vaping, chewing) \nP 5533 – Student Smoking (M)",
+    "action1": "● Parent/Guardian notification\n● 2 days ISS\n● Counseling\n● Possible exclusion from school social activities and functions",
+    "action2": "● Parent/Guardian notification\n● 3 days ISS\n● Counseling\n● Possible exclusion from school social activities and functions",
+    "action3": "● Parent/Guardian notification\n● 5 days OSS\n● Counseling",
+    "unlawful": false
+  },
+  {
+    "offense": "Student trespassing (from other school(s), in school or on school grounds) while on OSS or pending Parent/Guardian conference",
+    "action1": "● Parent/Guardian notification\n● Mandatory OSS\n● Charged with criminal trespassing\n● Notice to Police Liaison",
+    "action2": "● Same as 1st offense",
+    "action3": "● Same as 1st offense",
+    "unlawful": false
+  },
+  {
+    "offense": "Use of racial/ethnic or any other derogatory slur",
+    "action1": "● Parent/Guardian notification\n● Possible Parent/Guardian conference\n● OSS\n● Referral to Teen Center for sensitivity awareness",
+    "action2": "● Parent/Guardian notification\n● Parent/Guardian conference\n● OSS\n● Referral to Teen Center for sensitivity awareness",
+    "action3": "● Parent/Guardian notification\n● Parent/Guardian conference\n● Informal/Formal Hearing\n● OSS\n● Referral to Teen Center for sensitivity awareness",
+    "unlawful": false
+  },
+  {
+    "offense": "Cutting class, homeroom, study hall, lunch",
+    "action1": "● Parent/Guardian notification\n● Fail assignment\n● Teacher detention\n● Administrative detention",
+    "action2": "● Parent/Guardian notification\n● Fail assignment\n● Minimum 1-day ISS\n● Referral to SEL\n● Referral to Teen Center",
+    "action3": "● Parent/Guardian notification\n● Fail assignment\n● Minimum 3-5 days ISS\n● Possible 1-3 days OSS\n● Possible referral to the court system",
+    "unlawful": false
+  },
+  {
+    "offense": "Failure to report to Teacher’s detention",
+    "action1": "● Parent/Guardian notification\n● Teacher reassigns detention",
+    "action2": "● Possible Parent/Guardian conference\n● Administrative detention",
+    "action3": "● Parent/Guardian notification\n● Minimum 1-3 days OSS",
+    "unlawful": false
+  },
+  {
+    "offense": "Failure to report to Administrative detention",
+    "action1": "● Parent/Guardian notification\n● 1-day OSS",
+    "action2": "● Parent/Guardian notification\n● 2 days OSS",
+    "action3": "● Parent/Guardian notification\n● Minimum 3 days OSS",
+    "unlawful": false
+  },
+  {
+    "offense": "Failure to report to ISS",
+    "action1": "● Parent/Guardian notification\n● 1-day ISS added to original action",
+    "action2": "● Parent/Guardian notification\n● 3 days ISS added to original action",
+    "action3": "● Parent/Guardian notification\n● Up to 10 days OSS",
+    "unlawful": false
+  },
+  {
+    "offense": "Leaving class without permission",
+    "action1": "● Parent/Guardian notification\n● Fail assignment\n● Minimum 1-day ISS\n● Referral to SEL\n● Referral to Teen Center",
+    "action2": "● Parent/Guardian notification\n● Fail assignment\n● Minimum 3-5 days ISS\n● Referral to SEL\n● Referral to Teen Center",
+    "action3": "● Parent/Guardian notification\n● Informal/Formal Hearing\n● Fail assignment\n● OSS",
+    "unlawful": false
+  },
+  {
+    "offense": "Leaving school grounds without permission",
+    "action1": "● Parent/Guardian notification\n● Minimum 3-5 days ISS/OSS",
+    "action2": "● Parent/Guardian notification\n● Minimum 3-5 days ISS/OSS",
+    "action3": "● Parent/Guardian notification\n● Informal/Formal Hearing\n● OSS",
+    "unlawful": false
+  },
+  {
+    "offense": "Fighting between students (verbal/physical)",
+    "action1": "● Parent/Guardian notification\n● Up to 10 days OSS\n● Mandatory expulsion procedure\n● Mandatory mediation process\n● Referral to Teen Center\n● Referral to SEL",
+    "action2": "● Parent/Guardian notification\n● 10 days OSS\n● Mandatory expulsion procedure\n● Mandatory mediation process\n● Referral to Teen Center\n● Referral to SEL",
+    "action3": "● Parent/Guardian notification\n● Informal/Formal Hearing\n● Probable expulsion procedure",
+    "unlawful": false
+  },
+  {
+    "offense": "Driving to school without privileges",
+    "action1": "● Parent/Guardian notification\n● 3 days ISS\n● Car towed",
+    "action2": "● Parent/Guardian notification\n● 5-10 days OSS\n● Car towed",
+    "action3": "● Parent/Guardian notification\n● 10 days OSS\n● Car towed",
+    "unlawful": false
+  },
+  {
+    "offense": "Tampering with security device",
+    "action1": "● Parent/Guardian notification\n● Detention\n● Up to 3 days OSS",
+    "action2": "● Parent/Guardian notification\n● OSS",
+    "action3": "● Parent/Guardian notification\n● Informal/Formal Hearing\n● Probable expulsion procedures",
+    "unlawful": false
+  },
+  {
+    "offense": "Failure to report to mandatory counseling",
+    "action1": "● Parent/Guardian notification\n● Up to 5 days ISS",
+    "action2": "● Parent/Guardian notification\n● Up to 10 days OSS",
+    "action3": "● Parent/Guardian notification\n● Informal/Formal Hearing\n● Probable expulsion procedures",
+    "unlawful": false
+  },
+  {
+    "offense": "Inappropriate behavior at a school function",
+    "action1": "● Parent/Guardian notification\n● Possible suspension from all school events\n● ISS\n● OSS\n● Legal action",
+    "action2": "● Same as 1st offense",
+    "action3": "● Informal/Formal Hearing\n● Suspension from all social events for the rest of the year\n● Notification to local police department\n● Probable expulsion procedures",
+    "unlawful": false
+  },
+  {
+    "offense": "Student bringing undue notoriety or embarrassment to ACHS",
+    "action1": "● Parent/Guardian notification\n● 3-5 days OSS\n● Possible exclusion from extracurricular activities and social events",
+    "action2": "● Parent/Guardian notification\n● Informal/Formal Hearing\n● Possible expulsion procedures",
+    "action3": "● Same as 2nd offense",
+    "unlawful": false
+  },
+  {
+    "offense": "Attending school while on OSS",
+    "action1": "● Parent/Guardian notification\n● Charged with criminal trespassing\n● 1-day OSS added to original action",
+    "action2": "● Parent/Guardian notification\n● Charged with criminal trespassing\n● Up to 3 days OSS added to original action",
+    "action3": "● Parent/Guardian notification\n● Charged with criminal trespassing\n● Up to 5 days OSS added to original action",
+    "unlawful": false
+  },
+  {
+    "offense": "Defacing school property/vandalism/\nDestruction of staff or student property/\nComputer tampering (includes destroying bulletin boards, school books/materials or items on school walls)",
+    "action1": "● Parent/Guardian notification\n● Detention\n● OSS\n● Contact Supt. office",
+    "action2": "● Parent/Guardian notification\n● Restitution\n● 5-10 days OSS\n● Contact Supt. office",
+    "action3": "● Parent/Guardian notification\n● Probable mandatory expulsion procedure\n● Contact Supt. office",
+    "unlawful": true
+  },
+  {
+    "offense": "Possession of controlled dangerous substances (i.e.-selling, intent to sell, transfer or distribute drugs, alcohol, steroids, etc.)",
+    "action1": "● Parent/Guardian notification\n● Drug testing\n● OSS\n● Probable expulsion procedures\n● Legal action\n● Mandatory drug counseling (SAC)\n● Confiscation of item\n● Contact Supt. office",
+    "action2": "● Same as 1st offense",
+    "action3": "● Same as 1st offense",
+    "unlawful": true
+  },
+  {
+    "offense": "Use of alcohol and/or controlled dangerous substances and/or vaping devices (i.e.- drugs, alcohol, steroids, etc.)",
+    "action1": "● Parent/Guardian notification\n● Drug testing\n● OSS\n● Mandatory drug counseling (SAC)\n● Mandatory\nexpulsion procedure\n● Legal action\n● Contact Supt. office",
+    "action2": "● Same as 1st offense",
+    "action3": "● Same as 1st offense",
+    "unlawful": true
+  },
+  {
+    "offense": "Using, threatening or inciting the use of physical force against adults (i.e.-staff members, Board members, visitors, etc.)",
+    "action1": "● Parent/Guardian notification\n● Informal/Formal Hearing\n● Up to 10 days OSS\n● Mandatory\nexpulsion procedure\n● Legal action notification to police liaison\n● Contact Supt. office",
+    "action2": "● Same as 1st offense",
+    "action3": "● Same as 1st offense",
+    "unlawful": true
+  },
+  {
+    "offense": "Possession of a firearm/Assault with a weapon \n \n(Zero Tolerance)",
+    "action1": "● Immediate Parent/Guardian notification\n● Informal and/or Formal Hearing\n● Immediate removal of student by school Safety Officer\n● Confiscate weapon (NEVER DISARM A PUPIL)\n● Place weapon in required lock box\n● Contact Coord. of Public Safety\n● Contact the Atlantic City Police Department for notification and forfeiture\n● Turn all confiscated firearms over to the police upon their arrival\n● Administrative conference with the Parent/Guardian and student\n● OSS\n● Alternative placement and/or expulsion\n● Begin expulsion\n● Contact Supt. office\n\nAny student possessing a weapon or firearm must be immediately removed from the school’s regular education program and placed in an alternative education school or program, pending a hearing before the district Board of Education\n\nAny student who assaults a student, teacher, administrator, Board member, or other school district employee with a weapon other than a firearm on school property, on a school bus, or at a school-sponsored function, must be immediately removed from the school’s regular education program and placed in an alternative education school or program, pending a hearing before the district Board of Education.",
+    "action2": "",
+    "action3": "",
+    "unlawful": true
+  },
+  {
+    "offense": "Possession of a dangerous weapon (razors, mace, taser, knife, gun, or other offensive or harmful devices)\n \n(Zero Tolerance)",
+    "action1": "● Immediate Parent/Guardian notification\n● Informal and/or Formal Hearing\n● Immediate removal of student by school Safety Officers\n● Confiscate weapon\n● Place weapon in required lock box\n● Contact Atlantic City Police Department for notification and forfeiture\n● Contact Coord. of Public Safety\n● OSS/Home Instruction\n● Alternate placement and/or expulsion\n● Contact Supt. office",
+    "action2": "",
+    "action3": "",
+    "unlawful": true
+  },
+  {
+    "offense": "Terroristic and/or verbal threats or open defiance of authority towards Teachers, staff and/or others",
+    "action1": "● Parent/Guardian notification\n● Mandatory OSS\n● Referral to anger management\n● Mandatory expulsion procedure\n● Legal action\n● Contact Supt. office",
+    "action2": "● Same as 1st offense",
+    "action3": "● Same as 1st offense",
+    "unlawful": true
+  },
+  {
+    "offense": "Gambling",
+    "action1": "● Parent/Guardian notification\n● Detention\n● OSS\n● Refer to mandatory counseling\n● Contact Supt. office",
+    "action2": "● Same as 1st offense",
+    "action3": "● Same as 1st offense",
+    "unlawful": true
+  },
+  {
+    "offense": "Theft",
+    "action1": "● Parent/Guardian notification\n● OSS\n● Restitution\n● Legal action\n● Mandatory expulsion procedures\n● Contact Supt. office",
+    "action2": "● Same as 1st offense",
+    "action3": "● Same as 1st offense",
+    "unlawful": true
+  },
+  {
+    "offense": "Harassment/\nIntimidation/Bullying",
+    "action1": "● Parent/Guardian notification\n● Parent/Guardian conference\n● HIB Investigation\n● Up to 10 days OSS\n● Referral to Teen Center for sensitivity awareness\n● Legal action\n● Probable expulsion procedure\n● Contact Supt. office",
+    "action2": "● Same as 1st offense",
+    "action3": "● Same as 1st offense",
+    "unlawful": true
+  }
+]
