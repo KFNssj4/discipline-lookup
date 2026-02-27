@@ -6,19 +6,19 @@
   <title>Discipline Action Lookup</title>
   <style>
     :root {
-      --bg: #e8edf4;
-      --bgAccent: #d3dce9;
+      --bg: #dce7f5;
+      --bgAccent: #b6c8e1;
       --surface: #ffffff;
-      --surfaceSoft: #f4f7fb;
-      --ink: #0f2138;
-      --inkMuted: #485a70;
-      --line: #c7d2e0;
-      --brand: #0b1f3b;
-      --brandSoft: #e3e9f3;
-      --focus: #193d70;
+      --surfaceSoft: #eef3fa;
+      --ink: #0b1a2f;
+      --inkMuted: #344963;
+      --line: #a9bdd8;
+      --brand: #061733;
+      --brandSoft: #d4e0f2;
+      --focus: #0d2b59;
       --danger: #9e1b1b;
       --dangerBg: #fde9e9;
-      --shadow: 0 16px 40px rgba(17, 36, 58, 0.12);
+      --shadow: 0 18px 44px rgba(6, 23, 51, 0.2);
     }
 
     * { box-sizing: border-box; }
@@ -28,8 +28,8 @@
       font-family: "Nunito Sans", "Avenir Next", "Trebuchet MS", sans-serif;
       color: var(--ink);
       background:
-        radial-gradient(circle at 10% 10%, var(--bgAccent) 0%, transparent 34%),
-        radial-gradient(circle at 100% 0%, #ced8e8 0%, transparent 28%),
+        radial-gradient(circle at 10% 10%, var(--bgAccent) 0%, transparent 40%),
+        radial-gradient(circle at 100% 0%, #9eb4d2 0%, transparent 32%),
         var(--bg);
       min-height: 100vh;
     }
@@ -42,7 +42,7 @@
 
     .card {
       background: var(--surface);
-      border: 1px solid rgba(11, 31, 59, 0.16);
+      border: 1px solid rgba(6, 23, 51, 0.24);
       border-radius: 20px;
       padding: 26px;
       box-shadow: var(--shadow);
@@ -52,14 +52,14 @@
       display: flex;
       align-items: center;
       gap: 14px;
-      margin-bottom: 6px;
+      margin-bottom: 2px;
     }
 
     .logoWrap {
       width: 64px;
       height: 64px;
       border-radius: 14px;
-      border: 1px solid rgba(11, 31, 59, 0.2);
+      border: 1px solid rgba(6, 23, 51, 0.3);
       background: #fff;
       display: grid;
       place-items: center;
@@ -74,23 +74,19 @@
       display: block;
     }
 
-    .logoFallback {
-      display: none;
-      width: 100%;
-      height: 100%;
-      place-items: center;
-      font-size: 2.1rem;
-      font-weight: 900;
-      color: var(--brand);
-      font-family: Georgia, "Times New Roman", serif;
-      background: #fff;
-    }
-
     h1 {
-      margin: 4px 0 10px;
+      margin: 0;
       font-size: clamp(1.4rem, 2.3vw, 1.95rem);
       line-height: 1.2;
       letter-spacing: 0.01em;
+      color: var(--brand);
+    }
+
+    .subhead {
+      margin: 3px 0 0;
+      font-size: clamp(1rem, 1.6vw, 1.15rem);
+      color: var(--inkMuted);
+      font-weight: 700;
     }
 
     p {
@@ -98,18 +94,6 @@
       color: var(--inkMuted);
       max-width: 68ch;
       line-height: 1.5;
-    }
-
-    .eyebrow {
-      display: inline-block;
-      border-radius: 999px;
-      background: var(--brandSoft);
-      color: var(--brand);
-      font-size: 0.76rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 6px 11px;
     }
 
     .grid {
@@ -221,9 +205,9 @@
     .result {
       margin-top: 14px;
       padding: 17px;
-      border: 1px solid rgba(11, 31, 59, 0.18);
+      border: 1px solid rgba(6, 23, 51, 0.24);
       border-radius: 14px;
-      background: linear-gradient(180deg, #ffffff 0%, #f7f9fc 100%);
+      background: linear-gradient(180deg, #ffffff 0%, #f1f6fd 100%);
     }
 
     .result h2 {
@@ -272,13 +256,11 @@
           <img
             src="logo.png"
             alt="School logo"
-            onerror="this.style.display='none';this.nextElementSibling.style.display='grid';"
           />
-          <span class="logoFallback" aria-hidden="true">A</span>
         </div>
         <div>
-          <span class="eyebrow">Student Support Tool</span>
-          <h1>Discipline Action Lookup</h1>
+          <h1>Atlantic City High School</h1>
+          <div class="subhead">Discipline Action Lookup</div>
         </div>
       </div>
       <p>Select an offense and the infraction count to see the recommended action.</p>
