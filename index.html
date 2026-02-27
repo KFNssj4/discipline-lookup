@@ -67,7 +67,7 @@
       border: 1px solid var(--border);
       border-radius: 12px;
       box-shadow: 0 10px 24px rgba(0,0,0,.08);
-      max-height: 240px;
+      max-height: 260px; /* scroll to handle "all offenses" */
       overflow: auto;
       z-index: 50;
     }
@@ -117,7 +117,7 @@
           <div class="inputWrap">
             <input
               id="offenseInput"
-              placeholder="Start typing an offense…"
+              placeholder="Type to search or click to browse…"
               autocomplete="off"
               autocapitalize="none"
               autocorrect="off"
@@ -149,8 +149,8 @@
 
 <script>
   let matrix = [];
-  let selectedRow = null;        // set when user picks a suggestion
-  let isLockedSelection = false; // stays locked until user types again
+  let selectedRow = null;         // set when user picks a suggestion
+  let isLockedSelection = false;  // stays locked until user types again
 
   function normalizeCount(v) {
     const n = Number(v);
@@ -160,7 +160,7 @@
   }
 
   function getAction(row, count) {
-    if (!row) return "Start typing to see the recommended action.";
+    if (!row) return "Type or browse offenses to see the recommended action.";
     const c = normalizeCount(count);
     if (c === 1) return row.action1 || "(No action listed for 1st offense)";
     if (c === 2) return row.action2 || "(No action listed for 2nd offense)";
@@ -168,71 +168,85 @@
   }
 
   function norm(s) {
-  return (s || "").toString().trim().toLowerCase();
-}
-
-// Turns "Defacing school property/vandalism..." into a forgiving search string
-function makeSearchKey(s) {
-  return norm(s)
-    .replace(/['’]/g, "")           // remove apostrophes
-    .replace(/[^a-z0-9]+/g, " ")    // punctuation -> spaces
-    .replace(/\s+/g, " ")           // collapse whitespace
-    .trim();
-}
-
-function tokenize(s) {
-  const key = makeSearchKey(s);
-  return key ? key.split(" ") : [];
-}
-  
-  function getMatches(query, limit = 8) {
-  const qKey = makeSearchKey(query);
-  if (!qKey) return [];
-
-  const qTokens = qKey.split(" ").filter(Boolean);
-
-  const starts = [];
-  const contains = [];
-
-  for (const r of matrix) {
-    const key = r._searchKey || makeSearchKey(r.offense);
-    const tokens = r._tokens || tokenize(r.offense);
-
-    // Score matches:
-    //  - best: any offense word starts with any query token (vape -> vaping)
-    //  - next: key contains query token anywhere
-    let startScore = 0;
-    let containScore = 0;
-
-    for (const qt of qTokens) {
-      if (!qt) continue;
-
-      if (tokens.some(t => t.startsWith(qt))) startScore += 2;
-      else if (key.includes(qt)) containScore += 1;
-    }
-
-    // If at least one token matched in either way, include it
-    const totalScore = startScore + containScore;
-    if (totalScore > 0) {
-      // Store score for ordering
-      const item = { row: r, score: totalScore };
-      if (startScore > 0) starts.push(item);
-      else contains.push(item);
-    }
+    return (s || "").toString().trim().toLowerCase();
   }
 
-  // Higher score first; tie-break alphabetically by offense text
-  const sorter = (a, b) =>
-    (b.score - a.score) || a.row.offense.localeCompare(b.row.offense);
+  // Forgiving search key: lowercased, punctuation removed, spaces normalized
+  function makeSearchKey(s) {
+    return norm(s)
+      .replace(/['’]/g, "")
+      .replace(/[^a-z0-9]+/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
 
-  const ordered = starts.sort(sorter).concat(contains.sort(sorter));
+  function tokenize(s) {
+    const key = makeSearchKey(s);
+    return key ? key.split(" ") : [];
+  }
 
-  return ordered.slice(0, limit).map(x => x.row);
-}
+  // Query token variants to catch common cases like vape -> vaping (silent e)
+  function variantsForToken(qt) {
+    const v = [];
+    if (!qt) return v;
+    v.push(qt);
+
+    // silent-e drop: "vape" -> "vap" (so it matches "vaping")
+    if (qt.endsWith("e") && qt.length > 2) v.push(qt.slice(0, -1));
+
+    // de-dupe
+    return [...new Set(v)];
+  }
+
+  // Option A behavior:
+  // - Empty query => show ALL offenses
+  // - Non-empty => score and filter
+  function getMatches(query) {
+    const qKey = makeSearchKey(query);
+
+    // Empty: return everything (already sorted in init)
+    if (!qKey) return matrix.slice();
+
+    const qTokens = qKey.split(" ").filter(Boolean);
+
+    const scored = [];
+
+    for (const r of matrix) {
+      const key = r._searchKey;
+      const tokens = r._tokens;
+
+      let startScore = 0;
+      let containScore = 0;
+
+      for (const qt of qTokens) {
+        const vars = variantsForToken(qt);
+
+        // Strong: any word starts with token variant
+        const wordStartMatch = vars.some(v => tokens.some(t => t.startsWith(v)));
+        if (wordStartMatch) {
+          startScore += 2;
+          continue;
+        }
+
+        // Weaker: anywhere in key
+        const containsMatch = vars.some(v => key.includes(v));
+        if (containsMatch) containScore += 1;
+      }
+
+      const totalScore = startScore + containScore;
+      if (totalScore > 0) scored.push({ row: r, score: totalScore });
+    }
+
+    // Higher score first; tie-break alphabetically
+    scored.sort((a, b) => (b.score - a.score) || a.row.offense.localeCompare(b.row.offense));
+
+    return scored.map(x => x.row);
+  }
 
   function topMatch(query) {
-    const m = getMatches(query, 1);
-    return m.length ? m[0] : null;
+    const matches = getMatches(query);
+    // For empty query, "top match" should be first offense alphabetically
+    return matches.length ? matches[0] : null;
   }
 
   function renderAction(row) {
@@ -242,7 +256,6 @@ function tokenize(s) {
     const notice = document.getElementById("unlawfulNotice");
 
     actionText.textContent = getAction(row, countSel.value);
-
     notice.style.display = (row && row.unlawful === true) ? "block" : "none";
 
     const label = countSel.value === "1" ? "1st" : (countSel.value === "2" ? "2nd" : "3rd+");
@@ -258,6 +271,7 @@ function tokenize(s) {
       return;
     }
 
+    // Render ALL offenses (Option A). The box scrolls.
     box.hidden = false;
     box.innerHTML = matches.map((r, i) => `
       <div class="suggestion ${i === activeIndex ? "active" : ""}" data-offense="${escapeHtml(r.offense)}">
@@ -265,7 +279,7 @@ function tokenize(s) {
       </div>
     `).join("");
 
-    // Use mousedown/touchstart so selection works before input loses focus (esp. mobile)
+    // Use mousedown/touchstart so selection works before blur (esp. mobile)
     box.querySelectorAll(".suggestion").forEach(el => {
       el.addEventListener("mousedown", (e) => {
         e.preventDefault();
@@ -299,47 +313,65 @@ function tokenize(s) {
     const input = document.getElementById("offenseInput");
     const q = input.value;
 
-    // Any typing unlocks (resume "top match while typing")
+    // Any typing unlocks selection (resume "top match while typing")
     isLockedSelection = false;
     selectedRow = null;
 
-    const matches = getMatches(q, 8);
+    const matches = getMatches(q);
     showSuggestions(matches);
 
     // Show action for top match immediately (no label)
     renderAction(matches.length ? matches[0] : null);
   }
 
+  function openDropdown() {
+    const input = document.getElementById("offenseInput");
+    const matches = getMatches(input.value);
+    showSuggestions(matches);
+
+    // If not locked, show top match while browsing/typing
+    if (!(isLockedSelection && selectedRow)) {
+      renderAction(matches.length ? matches[0] : null);
+    }
+  }
+
   async function init() {
     const input = document.getElementById("offenseInput");
     const countSel = document.getElementById("count");
+    const wrap = document.querySelector(".inputWrap");
 
     const res = await fetch("data.json", { cache: "no-store" });
     matrix = await res.json();
-    // Precompute forgiving search fields once (faster + more consistent matching)
-matrix.forEach(r => {
-  r._searchKey = makeSearchKey(r.offense);
-  r._tokens = tokenize(r.offense);
-});
 
+    // Precompute search fields
+    matrix.forEach(r => {
+      r._searchKey = makeSearchKey(r.offense);
+      r._tokens = tokenize(r.offense);
+    });
+
+    // Sort alphabetically for "browse all"
     matrix.sort((a,b) => a.offense.localeCompare(b.offense));
 
+    // Type to filter
     input.addEventListener("input", handleTyping);
 
-    // If count changes: respect locked selection, otherwise keep using top match
+    // Click/focus to browse all (Option A)
+    input.addEventListener("focus", openDropdown);
+    input.addEventListener("click", openDropdown);
+
+    // Count change: respect locked selection, otherwise keep using top match
     countSel.addEventListener("change", () => {
       if (isLockedSelection && selectedRow) renderAction(selectedRow);
       else renderAction(topMatch(input.value));
     });
 
-    // Hide suggestions if you click/tap outside the input area
+    // Hide suggestions if clicking outside
     document.addEventListener("click", (e) => {
-      const wrap = document.querySelector(".inputWrap");
       if (wrap && !wrap.contains(e.target)) hideSuggestions();
     });
 
     document.getElementById("actionText").textContent =
-      "Start typing to see the recommended action.";
+      "Type or click the offense box to browse all offenses.";
   }
 
   function escapeHtml(str) {
