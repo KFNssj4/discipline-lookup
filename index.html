@@ -59,18 +59,21 @@
     .inputWrap { position: relative; }
 
     .suggestions {
-      position: absolute;
-      top: calc(100% + 6px);
-      left: 0;
-      right: 0;
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      box-shadow: 0 10px 24px rgba(0,0,0,.08);
-      max-height: 260px; /* scroll to handle "all offenses" */
-      overflow: auto;
-      z-index: 50;
-    }
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 10px 24px rgba(0,0,0,.08);
+  max-height: 260px;
+  overflow: auto;
+  z-index: 50;
+
+  -webkit-overflow-scrolling: touch; /* iOS smooth scroll */
+  touch-action: pan-y;               /* allow vertical scrolling */
+}
 
     .suggestion {
       padding: 10px 12px;
@@ -79,6 +82,7 @@
       line-height: 1.2;
       user-select: none;
       -webkit-tap-highlight-color: transparent;
+      touch-action: pan-y; /* allow vertical scrolling on mobile */
     }
 
     .suggestion:hover,
@@ -263,34 +267,56 @@
   }
 
   function showSuggestions(matches, activeIndex = 0) {
-    const box = document.getElementById("suggestions");
+  const box = document.getElementById("suggestions");
 
-    if (!matches.length) {
-      box.hidden = true;
-      box.innerHTML = "";
-      return;
-    }
-
-    // Render ALL offenses (Option A). The box scrolls.
-    box.hidden = false;
-    box.innerHTML = matches.map((r, i) => `
-      <div class="suggestion ${i === activeIndex ? "active" : ""}" data-offense="${escapeHtml(r.offense)}">
-        ${escapeHtml(r.offense)}
-      </div>
-    `).join("");
-
-    // Use mousedown/touchstart so selection works before blur (esp. mobile)
-    box.querySelectorAll(".suggestion").forEach(el => {
-      el.addEventListener("mousedown", (e) => {
-        e.preventDefault();
-        selectOffense(el.getAttribute("data-offense"));
-      });
-      el.addEventListener("touchstart", (e) => {
-        e.preventDefault();
-        selectOffense(el.getAttribute("data-offense"));
-      }, { passive: false });
-    });
+  if (!matches.length) {
+    box.hidden = true;
+    box.innerHTML = "";
+    return;
   }
+
+  // Render ALL offenses (Option A). The box scrolls.
+  box.hidden = false;
+  box.innerHTML = matches.map((r, i) => `
+    <div class="suggestion ${i === activeIndex ? "active" : ""}" data-offense="${escapeHtml(r.offense)}">
+      ${escapeHtml(r.offense)}
+    </div>
+  `).join("");
+
+  box.querySelectorAll(".suggestion").forEach(el => {
+
+    // Desktop: click works normally
+    el.addEventListener("mousedown", (e) => {
+      e.preventDefault();
+      selectOffense(el.getAttribute("data-offense"));
+    });
+
+    // Mobile: tap selects, scroll does NOT select
+    let startY = 0;
+    let startX = 0;
+    let moved = false;
+
+    el.addEventListener("touchstart", (e) => {
+      moved = false;
+      startY = e.touches[0].clientY;
+      startX = e.touches[0].clientX;
+    }, { passive: true });
+
+    el.addEventListener("touchmove", (e) => {
+      const dy = Math.abs(e.touches[0].clientY - startY);
+      const dx = Math.abs(e.touches[0].clientX - startX);
+      if (dy > 8 || dx > 8) moved = true;
+    }, { passive: true });
+
+    el.addEventListener("touchend", () => {
+      if (moved) return;
+      selectOffense(el.getAttribute("data-offense"));
+    });
+
+  }); // closes forEach
+
+} // closes showSuggestions
+
 
   function hideSuggestions() {
     const box = document.getElementById("suggestions");
@@ -388,3 +414,4 @@
 </script>
 </body>
 </html>
+   
