@@ -6,8 +6,8 @@
   <title>Discipline Action Lookup</title>
   <style>
     :root {
-      --bg: #dce7f5;
-      --bgAccent: #b6c8e1;
+      --bg: #7f97c2;
+      --bgAccent: #5e78ab;
       --surface: #ffffff;
       --surfaceSoft: #eef3fa;
       --ink: #0b1a2f;
@@ -28,8 +28,9 @@
       font-family: "Nunito Sans", "Avenir Next", "Trebuchet MS", sans-serif;
       color: var(--ink);
       background:
-        radial-gradient(circle at 10% 10%, var(--bgAccent) 0%, transparent 40%),
-        radial-gradient(circle at 100% 0%, #9eb4d2 0%, transparent 32%),
+        radial-gradient(circle at 10% 10%, var(--bgAccent) 0%, transparent 44%),
+        radial-gradient(circle at 100% 0%, #4f6ba1 0%, transparent 36%),
+        linear-gradient(160deg, #7892bf 0%, #667fb1 55%, #5b75a9 100%),
         var(--bg);
       min-height: 100vh;
     }
@@ -51,20 +52,21 @@
     .brandHeader {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 16px;
       margin-bottom: 2px;
     }
 
     .logoWrap {
-      width: 64px;
-      height: 64px;
-      border-radius: 14px;
-      border: 1px solid rgba(0, 0, 128, 0.3);
+      width: 88px;
+      height: 88px;
+      border-radius: 16px;
+      border: 2px solid rgba(0, 0, 128, 0.35);
       background: #fff;
       display: grid;
       place-items: center;
       overflow: hidden;
       flex-shrink: 0;
+      box-shadow: 0 10px 24px rgba(0, 0, 128, 0.18);
     }
 
     .logoWrap img {
@@ -242,7 +244,7 @@
       .wrap { margin: 24px auto; }
       .card { padding: 20px; border-radius: 16px; }
       .brandHeader { gap: 10px; }
-      .logoWrap { width: 54px; height: 54px; border-radius: 12px; }
+      .logoWrap { width: 68px; height: 68px; border-radius: 12px; }
       .grid { grid-template-columns: 1fr; }
       .result .action { font-size: 1.03rem; }
     }
