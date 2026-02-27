@@ -5,113 +5,282 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Discipline Action Lookup</title>
   <style>
-    :root { --border:#e5e7eb; --text:#111827; --muted:#6b7280; --bg:#f9fafb; --danger:#b91c1c; --dangerBg:#fee2e2; }
+    :root {
+      --bg: #e8edf4;
+      --bgAccent: #d3dce9;
+      --surface: #ffffff;
+      --surfaceSoft: #f4f7fb;
+      --ink: #0f2138;
+      --inkMuted: #485a70;
+      --line: #c7d2e0;
+      --brand: #0b1f3b;
+      --brandSoft: #e3e9f3;
+      --focus: #193d70;
+      --danger: #9e1b1b;
+      --dangerBg: #fde9e9;
+      --shadow: 0 16px 40px rgba(17, 36, 58, 0.12);
+    }
 
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin:0; background:var(--bg); color:var(--text); }
-    .wrap { max-width: 860px; margin: 40px auto; padding: 0 16px; }
-    .card { background:white; border:1px solid var(--border); border-radius:14px; padding:20px; box-shadow: 0 1px 2px rgba(0,0,0,.04); }
-    h1 { font-size: 20px; margin: 0 0 12px; }
-    p { margin: 0 0 18px; color: var(--muted); }
-    .grid { display:grid; grid-template-columns: 1fr 220px; gap: 12px; }
-    label { font-size: 12px; color: var(--muted); display:block; margin-bottom:6px; }
+    * { box-sizing: border-box; }
 
-    /* Inputs */
-    select, input {
+    body {
+      margin: 0;
+      font-family: "Nunito Sans", "Avenir Next", "Trebuchet MS", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 10% 10%, var(--bgAccent) 0%, transparent 34%),
+        radial-gradient(circle at 100% 0%, #ced8e8 0%, transparent 28%),
+        var(--bg);
+      min-height: 100vh;
+    }
+
+    .wrap {
+      max-width: 900px;
+      margin: 48px auto;
+      padding: 0 18px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid rgba(11, 31, 59, 0.16);
+      border-radius: 20px;
+      padding: 26px;
+      box-shadow: var(--shadow);
+    }
+
+    .brandHeader {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 6px;
+    }
+
+    .logoWrap {
+      width: 64px;
+      height: 64px;
+      border-radius: 14px;
+      border: 1px solid rgba(11, 31, 59, 0.2);
+      background: #fff;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .logoWrap img {
       width: 100%;
-      padding: 10px 12px;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
 
-      border: 1px solid var(--border) !important;
-      border-radius: 10px !important;
+    .logoFallback {
+      display: none;
+      width: 100%;
+      height: 100%;
+      place-items: center;
+      font-size: 2.1rem;
+      font-weight: 900;
+      color: var(--brand);
+      font-family: Georgia, "Times New Roman", serif;
+      background: #fff;
+    }
 
-      font-size: 14px;
-      color: var(--text);
-      background-color: #ffffff !important;
+    h1 {
+      margin: 4px 0 10px;
+      font-size: clamp(1.4rem, 2.3vw, 1.95rem);
+      line-height: 1.2;
+      letter-spacing: 0.01em;
+    }
 
+    p {
+      margin: 0 0 22px;
+      color: var(--inkMuted);
+      max-width: 68ch;
+      line-height: 1.5;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      border-radius: 999px;
+      background: var(--brandSoft);
+      color: var(--brand);
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 6px 11px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 230px;
+      gap: 14px;
+      align-items: end;
+    }
+
+    label {
+      font-size: 0.8rem;
+      color: var(--inkMuted);
+      font-weight: 700;
+      display: block;
+      margin-bottom: 7px;
+    }
+
+    select,
+    input {
+      width: 100%;
+      padding: 12px 13px;
+      border: 1px solid var(--line) !important;
+      border-radius: 12px !important;
+      font-size: 0.96rem;
+      color: var(--ink);
+      background-color: var(--surface) !important;
       -webkit-appearance: none;
       appearance: none;
-
       outline: none !important;
       box-shadow: none !important;
       background-image: none !important;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+    }
 
-      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    #count {
+      background:
+        linear-gradient(45deg, transparent 50%, var(--inkMuted) 50%) calc(100% - 18px) calc(1em + 1px) / 5px 5px no-repeat,
+        linear-gradient(135deg, var(--inkMuted) 50%, transparent 50%) calc(100% - 13px) calc(1em + 1px) / 5px 5px no-repeat,
+        var(--surface);
+      padding-right: 34px;
     }
 
     select:focus,
     input:focus,
     input:focus-visible,
     input:active {
-      background-color: #ffffff !important;
-      border-color: #6366f1 !important;
-      box-shadow: 0 0 0 2px rgba(99,102,241,.15) !important;
-      outline: none !important;
+      border-color: var(--focus) !important;
+      box-shadow: 0 0 0 4px rgba(25, 113, 194, 0.14) !important;
+      transform: translateY(-1px);
     }
 
     input:-webkit-autofill,
     input:-webkit-autofill:focus,
     input:-webkit-autofill:hover,
     input:-webkit-autofill:active {
-      -webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;
-      -webkit-text-fill-color: var(--text) !important;
+      -webkit-box-shadow: 0 0 0 1000px var(--surface) inset !important;
+      -webkit-text-fill-color: var(--ink) !important;
     }
 
-    /* Custom suggestion dropdown */
     .inputWrap { position: relative; }
 
     .suggestions {
-  position: absolute;
-  top: calc(100% + 6px);
-  left: 0;
-  right: 0;
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  box-shadow: 0 10px 24px rgba(0,0,0,.08);
-  max-height: 260px;
-  overflow: auto;
-  z-index: 50;
-
-  -webkit-overflow-scrolling: touch; /* iOS smooth scroll */
-  touch-action: pan-y;               /* allow vertical scrolling */
-}
+      position: absolute;
+      top: calc(100% + 7px);
+      left: 0;
+      right: 0;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: 0 16px 34px rgba(17, 36, 58, 0.16);
+      max-height: 290px;
+      overflow: auto;
+      z-index: 50;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-y;
+      animation: suggestionsIn 0.16s ease-out;
+    }
 
     .suggestion {
-      padding: 10px 12px;
+      padding: 11px 13px;
       cursor: pointer;
-      font-size: 14px;
-      line-height: 1.2;
+      font-size: 0.93rem;
+      line-height: 1.25;
       user-select: none;
       -webkit-tap-highlight-color: transparent;
-      touch-action: pan-y; /* allow vertical scrolling on mobile */
+      touch-action: pan-y;
+      border-bottom: 1px solid #edf2f7;
     }
+
+    .suggestion:last-child { border-bottom: 0; }
 
     .suggestion:hover,
     .suggestion.active {
-      background: #f3f4f6;
+      background: var(--surfaceSoft);
+      color: var(--brand);
     }
 
     .notice {
-      margin-top: 12px;
-      padding: 10px 12px;
+      margin-top: 15px;
+      padding: 11px 13px;
       border-radius: 12px;
-      border: 1px solid rgba(185, 28, 28, .35);
+      border: 1px solid rgba(158, 27, 27, 0.35);
       background: var(--dangerBg);
       color: var(--danger);
-      font-weight: 650;
+      font-weight: 700;
       display: none;
     }
 
-    .result { margin-top: 12px; padding: 14px; border:1px solid var(--border); border-radius:12px; background:#fff; }
-    .result h2 { font-size: 14px; margin:0 0 6px; color: var(--muted); }
-    .result .action { font-size: 18px; font-weight: 650; line-height:1.35; white-space: pre-line; }
-    .footer { margin-top: 12px; font-size: 12px; color: var(--muted); }
-    @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+    .result {
+      margin-top: 14px;
+      padding: 17px;
+      border: 1px solid rgba(11, 31, 59, 0.18);
+      border-radius: 14px;
+      background: linear-gradient(180deg, #ffffff 0%, #f7f9fc 100%);
+    }
+
+    .result h2 {
+      margin: 0 0 8px;
+      color: var(--brand);
+      font-size: 0.84rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .result .action {
+      font-size: clamp(1.02rem, 2vw, 1.16rem);
+      font-weight: 800;
+      line-height: 1.42;
+      white-space: pre-line;
+    }
+
+    .footer {
+      margin-top: 12px;
+      font-size: 0.79rem;
+      color: var(--inkMuted);
+      border-top: 1px dashed #d5e1ed;
+      padding-top: 10px;
+    }
+
+    @keyframes suggestionsIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 700px) {
+      .wrap { margin: 24px auto; }
+      .card { padding: 20px; border-radius: 16px; }
+      .brandHeader { gap: 10px; }
+      .logoWrap { width: 54px; height: 54px; border-radius: 12px; }
+      .grid { grid-template-columns: 1fr; }
+      .result .action { font-size: 1.03rem; }
+    }
   </style>
 </head>
 <body>
   <div class="wrap">
     <div class="card">
-      <h1>Discipline Action Lookup</h1>
+      <div class="brandHeader">
+        <div class="logoWrap">
+          <img
+            src="logo.png"
+            alt="School logo"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='grid';"
+          />
+          <span class="logoFallback" aria-hidden="true">A</span>
+        </div>
+        <div>
+          <span class="eyebrow">Student Support Tool</span>
+          <h1>Discipline Action Lookup</h1>
+        </div>
+      </div>
       <p>Select an offense and the infraction count to see the recommended action.</p>
 
       <div class="grid">
